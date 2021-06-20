@@ -1,0 +1,44 @@
+[UserDeposit 등록]
+http POST http://localhost:8088/userDeposits userid=1 deposit=100000
+http POST http://localhost:8088/userDeposits userid=2 deposit=200000
+http POST http://localhost:8088/userDeposits userid=3 deposit=200000
+
+[UserDeposit 확인]
+http GET http://localhost:8088/userDeposits
+
+[Bike 등록]
+http POST http://localhost:8088/bikes bikeid=1 status=사용가능 location=분당_정자역_1구역
+http POST http://localhost:8088/bikes bikeid=2 status=사용중 location=분당_정자역_1구역
+http POST http://localhost:8088/bikes bikeid=3 status=불량 location=분당_정자역_1구역
+
+[Bike 확인]
+http GET http://localhost:8088/bikes
+
+[CQRS - BikeDepository 확인]
+http GET http://localhost:8088/bikeDepositories
+
+[Rent - Rented Pub]
+[대여(rent) 전 확인]
+http GET http://localhost:8088/rents
+http GET http://localhost:8088/userDeposits
+http GET http://localhost:8088/bikeDepositories
+http GET http://localhost:8088/billings
+
+[대여(rent)]
+http POST http://localhost:8088/rents userid=1 bikeid=1
+[대여(rent) 및 CQRS - BikeDepository 확인]
+http GET http://localhost:8088/rents/1
+http GET http://localhost:8088/bikeDepositories
+
+[반납(return)]
+http PATCH http://localhost:8088/rents/1 status=returned
+
+[반납(return) 후 확인]
+http GET http://localhost:8088/rents
+http GET http://localhost:8088/userDeposits
+http GET http://localhost:8088/bikeDepositories
+http GET http://localhost:8088/billings
+
+[Rent - Rent실패 케이스]
+http POST http://localhost:8088/rents bikeid=2 userid=2
+http POST http://localhost:8088/rents bikeid=3 userid=2

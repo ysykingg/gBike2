@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-bikeurl
+  namespace: gbike
+data:
+  bikeurl: http://bike:8080

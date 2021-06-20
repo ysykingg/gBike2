@@ -1,0 +1,18 @@
+#zookeeper connection client port = 12181로 변경
+
+#실행(zookeeper -> kafka -> topic 생성 -> consumer 실행)
+c:\kafka\bin\windows\zookeeper-server-start.bat c:\kafka\config\zookeeper.properties
+c:\kafka\bin\windows\kafka-server-start.bat c:\kafka\config\server.properties
+
+c:\kafka\bin\windows\kafka-topics.bat --zookeeper localhost:12181 --topic gbike --create --partitions 1 --replication-factor 1
+c:\kafka\bin\windows\kafka-topics.bat --list --zookeeper localhost:12181
+c:\kafka\bin\windows\kafka-console-consumer.bat --bootstrap-server http://localhost:9092 --topic gbike --from-beginning
+
+#필요시 topic 삭제
+c:\kafka\bin\windows\kafka-topics.bat --delete --zookeeper localhost:12181 --topic 토픽이름
+C:\kafka\bin\windows\zookeeper-shell.bat localhost:12181
+ls /brokers/topics 
+[__consumer_offsets, eventTopic, gbike, mall, myFirstTestTopic, shop]
+deleteall /brokers/topics/eventTopic
+deleteall /brokers/topics/myFirstTestTopic
+quit

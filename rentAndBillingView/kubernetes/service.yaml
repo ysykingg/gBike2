@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rentandbillingview
+  labels:
+    app: rentandbillingview
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: rentandbillingview
