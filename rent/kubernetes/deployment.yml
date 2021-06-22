@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: rent
-          image: ysykingg/rent:latest
+          image: ysykingg.azurecr.io/rent:v1
           ports:
             - containerPort: 8080
           env:

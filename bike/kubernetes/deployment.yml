@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: bike
-          image: ysykingg/bike:v1
+          image: ysykingg.azurecr.io/bike:v1
           ports:
             - containerPort: 8080
           resources:

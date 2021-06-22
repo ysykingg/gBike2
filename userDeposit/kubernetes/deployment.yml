@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: userDeposit
-          image: ysykingg/userdeposit:latest
+          image: ysykingg.azurecr.io/userdeposit:v1
           ports:
             - containerPort: 8080
           readinessProbe:
