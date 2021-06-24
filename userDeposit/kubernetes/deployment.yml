@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userDeposit
+  name: userdeposit
   labels:
-    app: userDeposit
+    app: userdeposit
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: userDeposit
+      app: userdeposit
   template:
     metadata:
       labels:
-        app: userDeposit
+        app: userdeposit
     spec:
       containers:
-        - name: userDeposit
+        - name: userdeposit
           image: ysykingg.azurecr.io/userdeposit:v1
           ports:
             - containerPort: 8080
