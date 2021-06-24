@@ -725,8 +725,7 @@ rent 서비스와 기타 bike, billing, bikeDepository 등 서비스는  다른 
 
 ### Deploy 완료
 
-![image](https://user-images.githubusercontent.com/82796103/121105067-479e0d00-c83e-11eb-93a6-4a051d7eb45f.png)
-
+![image](https://user-images.githubusercontent.com/82795726/123265838-68e94380-d536-11eb-80a4-53ee6ccc534d.png)
 
 
 ## ConfigMap
