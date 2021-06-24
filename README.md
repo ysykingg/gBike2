@@ -232,11 +232,11 @@ API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수
 			- id: bikeManageApp
           		uri: http://localhost:8086
           		predicates:
-            			- Path=/bikeManageApps/**
+			        - Path=/bikeManageApps/**
         		- id: bikeManager
           		uri: http://localhost:8087
           		predicates:
-            			- Path=/bikeManagers/**
+			        - Path=/bikeManagers/**
 
 		globalcors:
 			corsConfigurations:
@@ -280,11 +280,11 @@ API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수
 			- id: bikeManageApp
           		uri: http://bikeManageApp:8080
           		predicates:
-            			- Path=/bikeManageApps/**
+			        - Path=/bikeManageApps/**
         		- id: bikeManager
           		uri: http://bikeManager:8080
           		predicates:
-            			- Path=/bikeManagers/**
+			        - Path=/bikeManagers/**
 
 		globalcors:
 			corsConfigurations:
