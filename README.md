@@ -1016,4 +1016,4 @@ vi deployment.yml
 
 - 기존 버전과 새 버전의  pod 공존
 
-![image](https://user-images.githubusercontent.com/82795726/123302005-36037780-d557-11eb-99cd-427ac4b723ee.png)
+![image](https://user-images.githubusercontent.com/82795726/123303429-c2fb0080-d558-11eb-995f-dbbebb3b254f.png)
