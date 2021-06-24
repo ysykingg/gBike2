@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bikeManageApp
+  name: bikemanageapp
   namespace: gbike
   labels:
-    app: bikeManageApp
+    app: bikemanageapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bikeManageApp
+      app: bikemanageapp
   template:
     metadata:
       labels:
-        app: bikeManageApp
+        app: bikemanageapp
     spec:
       containers:
-        - name: bikeManageApp
-          image: ysykingg.azurecr.io/bikeManageApp:v1
+        - name: bikemanageapp
+          image: ysykingg.azurecr.io/bikemanageapp:v1
           ports:
             - containerPort: 8080
           resources:
