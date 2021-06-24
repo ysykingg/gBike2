@@ -808,7 +808,7 @@ deployment.yml 파일 수정
           requests:
             cpu: 200m
 
-[bike구현]
+### [bike구현]
 	    
 Auto Scale 설정
 
@@ -828,7 +828,7 @@ Auto Scale 설정
 
 ![autoscale3](https://user-images.githubusercontent.com/82795748/121107154-643c4400-c842-11eb-9033-69c1a3114eb2.jpg)
 
-[bikeManageApp구현]
+### [bikeManageApp구현]
 
 Auto Scale 설정
 
@@ -849,7 +849,7 @@ Auto Scale 설정
 
 ## Self-healing (Liveness Probe)
 
-[userDeposit구현]
+### [userDeposit구현]
 
 - userdeposit 서비스 정상 확인
 
@@ -883,7 +883,7 @@ vi deployment.yml
 
 ![image](https://user-images.githubusercontent.com/84724396/121130881-fa379500-c869-11eb-9921-b24701660a72.png)
 
-[bikeManager구현]
+### [bikeManager구현]
 
 - bikeManager 서비스 정상 확인
 
@@ -918,7 +918,7 @@ vi deployment.yml
 
 # Circuit Breaker
 
-[rent구현]
+### [rent구현]
 
 - 서킷 브레이킹 프레임워크의 선택 : Spring FeignClient + Hystrix 옵션을 사용하여 구현함
 
@@ -952,7 +952,7 @@ vi deployment.yml
 
 ![image](https://user-images.githubusercontent.com/82796103/121125220-2995d400-c861-11eb-96ef-01f771097e2e.png)
 
-[bikeManageApp 구현]
+### [bikeManageApp 구현]
 
 - 서킷 브레이킹 프레임워크의 선택 : Spring FeignClient + Hystrix 옵션을 사용하여 구현함
 
