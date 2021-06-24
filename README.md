@@ -990,18 +990,30 @@ vi deployment.yml
 
 - readiness 옵션 제거 후 배포 - 신규 Pod 생성 시 downtime 발생
 
-![image](https://user-images.githubusercontent.com/82795726/121106857-d06a7800-c841-11eb-85cd-d7ad08ff62db.png)
+![image](https://user-images.githubusercontent.com/82795726/123302070-43206680-d557-11eb-8a6f-7d0825200ef3.png)
 
-- readiness 옵션 추가하여 배포
+- readiness 옵션 추가
 
-![image](https://user-images.githubusercontent.com/82795726/121106445-fc392e00-c840-11eb-9b8c-b413ef06b95e.png)
+![image](https://user-images.githubusercontent.com/82795726/123302345-972b4b00-d557-11eb-90be-83ed26ffaa01.png)
 
-![image](https://user-images.githubusercontent.com/82795726/121106524-225ece00-c841-11eb-9953-2febeab82108.png)
+- 새로운 version으로 배포 테스트
+
+```
+	--v4로 배포 후
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/bikemanager:v4 .	
+	kubectl set image deploy bikemanager bikemanager=ysykingg.azurecr.io/bikemanager:v4 -n gbike
+	
+	--readiness설정 포함된 yml 파일로 v3버전 재배포
+	kubectl apply -f ./kubernetes/deployment.yml -n gbike
+	
+	--배포 직전 siege 실행
+	siege -c200 -t120S -v http GET http://52.231.34.10:8080/bikeManagers
+```
 
 - Pod Describe에 Readiness 설정 확인
 
-![image](https://user-images.githubusercontent.com/82795726/121110068-a61bb900-c847-11eb-9229-63701496846a.png)
+![image](https://user-images.githubusercontent.com/82795726/123302239-7531c880-d557-11eb-9fa1-fee856696dd4.png)
 
 - 기존 버전과 새 버전의  pod 공존
 
-![image](https://user-images.githubusercontent.com/82795726/121109942-6e147600-c847-11eb-9dae-9dfce13e8c62.png)
+![image](https://user-images.githubusercontent.com/82795726/123302005-36037780-d557-11eb-99cd-427ac4b723ee.png)
