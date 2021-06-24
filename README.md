@@ -807,6 +807,8 @@ deployment.yml 파일 수정
             cpu: 500m
           requests:
             cpu: 200m
+
+[bike구현]
 	    
 Auto Scale 설정
 
@@ -825,6 +827,25 @@ Auto Scale 설정
 ![autoscale2](https://user-images.githubusercontent.com/82795748/121107303-a4032b80-c842-11eb-958c-a64e98bda3ce.jpg)
 
 ![autoscale3](https://user-images.githubusercontent.com/82795748/121107154-643c4400-c842-11eb-9033-69c1a3114eb2.jpg)
+
+[bikeManageApp구현]
+
+Auto Scale 설정
+
+	kubectl autoscale deployment bikeManageApp --cpu-percent=20 --min=1 --max=3 -n gbike
+
+### Auto Scale Out 발동 확인
+
+- 부하 시작 (siege) : 동시접속 5명, 100초 동안 
+	
+	siege -c5 -t100S -r10 -v --content-type "application/json" 'http://52.231.34.10:8080/bikeManageApps POST {"managerid": "1", "bikeid": "1", "batterylevel": "50", "usableyn": "true"}'
+
+![image](https://user-images.githubusercontent.com/82795726/123295290-87f4cf00-d550-11eb-8fd2-5f646572c3f5.png)
+
+- Scale out 확인
+
+![image](https://user-images.githubusercontent.com/82795726/123294894-377d7180-d550-11eb-8406-addc4eb29d82.png)
+
 
 ## Self-healing (Liveness Probe)
 
