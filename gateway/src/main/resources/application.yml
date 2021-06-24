@@ -1,0 +1,96 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: rent
+          uri: http://localhost:8081
+          predicates:
+            - Path=/rents/** 
+        - id: bike
+          uri: http://localhost:8082
+          predicates:
+            - Path=/bikes/** 
+        - id: billing
+          uri: http://localhost:8083
+          predicates:
+            - Path=/billings/** 
+        - id: userDeposit
+          uri: http://localhost:8084
+          predicates:
+            - Path=/userDeposits/** 
+        - id: rentAndBillingView
+          uri: http://localhost:8085
+          predicates:
+            - Path=/rentAndBillingViews/**
+        - id: bikeManageApp
+          uri: http://localhost:8086
+          predicates:
+            - Path=/bikeManageApps/**
+        - id: bikeManager
+          uri: http://localhost:8087
+          predicates:
+            - Path=/bikeManagers/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: rent
+          uri: http://rent:8080
+          predicates:
+            - Path=/rents/** 
+        - id: bike
+          uri: http://bike:8080
+          predicates:
+            - Path=/bikes/** 
+        - id: billing
+          uri: http://billing:8080
+          predicates:
+            - Path=/billings/** 
+        - id: userDeposit
+          uri: http://userDeposit:8080
+          predicates:
+            - Path=/userDeposits/** 
+        - id: rentAndBillingView
+          uri: http://rentAndBillingView:8080
+          predicates:
+            - Path=/rentAndBillingViews/**
+        - id: bikeManageApp
+          uri: http://bikeManageApp:8080
+          predicates:
+            - Path=/bikeManageApps/**
+        - id: bikeManager
+          uri: http://bikeManager:8080
+          predicates:
+            - Path=/bikeManagers/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
