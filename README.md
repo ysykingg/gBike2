@@ -599,34 +599,55 @@ rentAndBillingView View를 통하여 사용자가 rental한 bike 정보와 billi
      1. bike상태 Report등록
     
      http POST http://52.231.34.10:8080/bikeManageApps reportid=1 managerid=1 bikeid=1 batterylevel=50 usableyn=true
-     
+  
+  ![image](https://user-images.githubusercontent.com/82795726/123269310-d3e84980-d539-11eb-83a9-fb3dae9edef7.png)
+
+  
      2. bike상태 정상 반영 확인
      
      http GET http://52.231.34.10:8080/bikes
        
+  ![image](https://user-images.githubusercontent.com/82795726/123272273-93d69600-d53c-11eb-83e0-9296d59a241f.png)
+
       --불량 보고 후 bike상태 확인
-       
+      
+     http POST http://52.231.34.10:8080/bikeManageApps reportid=4 managerid=1 bikeid=1 batterylevel=40 usableyn=false  
+     
+  ![image](https://user-images.githubusercontent.com/82795726/123272402-ab158380-d53c-11eb-9605-39e5d53498d7.png)
+     
      3. bike상태 정상 반영 후 point 적립 확인
      
      http GET http://52.231.34.10:8080/bikeManagers
+     
+  ![image](https://user-images.githubusercontent.com/82795726/123272518-c5e7f800-d53c-11eb-8503-528e8702fef3.png)
+
      
 ### 6. bikeManager에 적립한 point Deposit으로 전환
 
      1. 포인트전환요청
      
-     http PUT http://52.231.34.10:8080/bikeManagers/1 userid=1 point=1000 adjustpoint=1000
+     http PUT http://52.231.34.10:8080/bikeManagers/1 userid=1 point=2000 adjustpoint=1000
+     
+  ![image](https://user-images.githubusercontent.com/82795726/123270601-047cb300-d53b-11eb-8d6e-143fa9135716.png)
      
      2. 포인트 감소 확인
      
      http GET http://52.231.34.10:8080/bikeManagers
      
+  ![image](https://user-images.githubusercontent.com/82795726/123270713-20805480-d53b-11eb-9320-726cc79d1b33.png)
+     
      3. userDeposit 전환 확인
      
      http GET http://52.231.34.10:8080/userDeposits
+     
+  ![image](https://user-images.githubusercontent.com/82795726/123270878-4148aa00-d53b-11eb-92f1-7669572568b5.png)
 
 ### 7. userDeposit 전환 후 rentAndBillingView에서 적립 후 deposit 반영 확인
 
      http GET http://52.231.34.10:8080/rentandbillingviews
+     
+  ![image](https://user-images.githubusercontent.com/82795726/123271379-b9af6b00-d53b-11eb-95b8-39dabb800b00.png)
+
 
 ## Polyglot 프로그래밍 적용
 
@@ -676,6 +697,16 @@ rent 서비스와 기타 bike, billing, bikeDepository 등 서비스는  다른 
 	mvn clean
 	mvn compile
 	mvn package
+	
+	cd /home/project/gbike/bikeManager
+	mvn clean
+	mvn compile
+	mvn package
+	
+	cd /home/project/gbike/bikeManageApp
+	mvn clean
+	mvn compile
+	mvn package
 
 	cd /home/project/gbike/gateway
 	mvn clean
@@ -685,33 +716,43 @@ rent 서비스와 기타 bike, billing, bikeDepository 등 서비스는  다른 
 ### Docker Image Push/deploy/서비스생성
 
 	cd /home/project/gbike/bike
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/bike:latest .
-	kubectl create deploy bike --image=skcc1team.azurecr.io/bike:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/bike:v1 .
+	kubectl create deploy bike --image=ysykingg.azurecr.io/bike:v1 -n gbike
 	kubectl expose deploy bike --type=ClusterIP --port=8080 -n gbike
 
 	cd /home/project/gbike/billing
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/billing:latest .
-	kubectl create deploy billing --image=skcc1team.azurecr.io/billing:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/billing:v1 .
+	kubectl create deploy billing --image=ysykingg.azurecr.io/billing:v1 -n gbike
 	kubectl expose deploy billing --type=ClusterIP --port=8080 -n gbike
 
 	cd /home/project/gbike/rent
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/rent:latest .
-	kubectl create deploy rent --image=skcc1team.azurecr.io/rent:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/rent:v1 .
+	kubectl create deploy rent --image=ysykingg.azurecr.io/rent:v1 -n gbike
 	kubectl expose deploy rent --type=ClusterIP --port=8080 -n gbike
 
 	cd /home/project/gbike/rentAndBillingView
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/rentandbillingview:latest .
-	kubectl create deploy rentandbillingview --image=skcc1team.azurecr.io/rentandbillingview:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/rentandbillingview:v1 .
+	kubectl create deploy rentandbillingview --image=ysykingg.azurecr.io/rentandbillingview:v1 -n gbike
 	kubectl expose deploy rentandbillingview --type=ClusterIP --port=8080 -n gbike
 
 	cd /home/project/gbike/userDeposit
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/userdeposit:latest .
-	kubectl create deploy userdeposit --image=skcc1team.azurecr.io/userdeposit:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/userdeposit:v1 .
+	kubectl create deploy userdeposit --image=ysykingg.azurecr.io/userdeposit:v1 -n gbike
 	kubectl expose deploy userdeposit --type=ClusterIP --port=8080 -n gbike
 
+        cd /home/project/gbike/bikeManager
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/bikemanager:v1 .
+	kubectl create deploy bikemanager --image=ysykingg.azurecr.io/bikemanager:v1 -n gbike
+	kubectl expose deploy bikemanager --type=ClusterIP --port=8080 -n gbike
+	
+	cd /home/project/gbike/bikeManageApp
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/bikemanageapp:v1 .
+	kubectl create deploy bikemanageapp --image=ysykingg.azurecr.io/bikemanageapp:v1 -n gbike
+	kubectl expose deploy bikemanageapp --type=ClusterIP --port=8080 -n gbike
+	
 	cd /home/project/gbike/gateway
-	az acr build --registry skcc1team --image skcc1team.azurecr.io/gateway:latest .
-	kubectl create deploy gateway --image=skcc1team.azurecr.io/gateway:latest -n gbike
+	az acr build --registry ysykingg --image ysykingg.azurecr.io/gateway:v1 .
+	kubectl create deploy gateway --image=ysykingg.azurecr.io/gateway:v1 -n gbike
 	kubectl expose deploy gateway --type=LoadBalancer --port=8080 -n gbike
 
 ### yml파일 이용한 deploy
