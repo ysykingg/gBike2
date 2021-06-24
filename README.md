@@ -507,6 +507,7 @@ MSAEZ.io를 통하여 도출된 Aggregate는 Entity로 선언하여 PRE/POST PER
     
     [BikeManeger정보확인]
     http GET http://52.231.34.10:8080/bikeManagers
+ ![image](https://user-images.githubusercontent.com/82795726/123268725-44db3180-d539-11eb-9329-10c61142d4d0.png)
  
 
 타 마이크로서비스의 데이터 원본에 접근없이(Composite 서비스나 조인SQL 등 없이) 도 조회가 가능하도록 rentAndBillingView 서비스의 CQRS를 통하여 Costomer Center 서비스를 구현하였다.
