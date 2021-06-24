@@ -828,6 +828,8 @@ Auto Scale 설정
 
 ## Self-healing (Liveness Probe)
 
+[userDeposit구현]
+
 - userdeposit 서비스 정상 확인
 
 ![liveness1](https://user-images.githubusercontent.com/84724396/121038124-fdd80700-c7ea-11eb-9063-ce9360b36278.PNG)
@@ -849,8 +851,6 @@ vi deployment.yml
 
 ![liveness43](https://user-images.githubusercontent.com/84724396/121042427-a471d700-c7ee-11eb-9140-3e59ac801fed.PNG)
 
-
-
 - gbike pod에 liveness가 적용된 부분 확인
 
   kubectl describe deploy userdeposit -n gbike
@@ -862,8 +862,42 @@ vi deployment.yml
 
 ![image](https://user-images.githubusercontent.com/84724396/121130881-fa379500-c869-11eb-9921-b24701660a72.png)
 
+[bikeManager구현]
+
+- bikeManager 서비스 정상 확인
+
+![image](https://user-images.githubusercontent.com/82795726/123293859-4adc0d00-d54f-11eb-8f04-18d6c10f6312.png)
+
+- deployment.yml 에 Liveness Probe 옵션 추가
+```
+cd ~/gbike/bikeManager
+vi deployment.yml
+
+(아래 설정 변경)
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8081
+            initialDelaySeconds: 3
+            periodSeconds: 5
+```
+
+![image](https://user-images.githubusercontent.com/82795726/123293513-03ee1780-d54f-11eb-81a5-142a7933edaa.png)
+
+- gbike pod에 liveness가 적용된 부분 확인
+
+  kubectl describe deploy bikemanager -n gbike
+
+![image](https://user-images.githubusercontent.com/82795726/123293333-dbfeb400-d54e-11eb-82da-a20537ebd672.png)
+
+
+- userdeposit 서비스의 liveness가 발동되어 2번 retry 시도 한 부분 확인
+![image](https://user-images.githubusercontent.com/82795726/123292691-43683400-d54e-11eb-8a0b-d1792ab2a234.png)
+
 
 # Circuit Breaker
+
+[rent구현]
 
 - 서킷 브레이킹 프레임워크의 선택 : Spring FeignClient + Hystrix 옵션을 사용하여 구현함
 
@@ -897,6 +931,39 @@ vi deployment.yml
 
 ![image](https://user-images.githubusercontent.com/82796103/121125220-2995d400-c861-11eb-96ef-01f771097e2e.png)
 
+[bikeManageApp 구현]
+
+- 서킷 브레이킹 프레임워크의 선택 : Spring FeignClient + Hystrix 옵션을 사용하여 구현함
+
+- Hystrix를 설정 : 요청처리 쓰레드에서 처리시간이 600 밀리가 넘어서기 시작하여 어느정도 유지되면 CB 회로가 닫히도록(요청을 빠르게 실패처리, 차단) 설정
+
+- 동기 호출 주체인 bikeManageApp 서비스에 Hystrix 설정
+
+- rent/src/main/resources/application.yml 파일
+
+```
+	feign:
+	  hystrix:
+		enabled: true
+	hystrix:
+	  command:
+		default:
+		  execution.isolation.thread.timeoutInMilliseconds: 600
+```
+
+- 부하에 대한 지연시간 발생코드 BikeController.java 지연 적용
+
+![image](https://user-images.githubusercontent.com/82795726/123288619-b4a5e800-d54a-11eb-8c3e-40c75ddab535.png)
+
+- 부하 테스터 siege툴을 통한 서킷 브레이커 동작확인 : 동시 사용자 5명, 10초 동안 실시
+
+	siege -c5 -t10S -r10 -v --content-type "application/json" 'http://52.231.34.10:8080/bikeManageApps POST {"managerid": "1", "bikeid": "1", "batterylevel": "50", "usableyn": "true"}'
+
+- 결과
+
+![image](https://user-images.githubusercontent.com/82795726/123288461-8f18de80-d54a-11eb-8d63-5a43f4254b7b.png)
+
+![image](https://user-images.githubusercontent.com/82795726/123288512-9b04a080-d54a-11eb-91aa-1d4b50bcfc6a.png)
 
 ## Zero-downtime deploy (readiness probe)
 
