@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: bikemanager
-          image: ysykingg.azurecr.io/bikeManager:v1
+          image: ysykingg.azurecr.io/bikemanager:v1
           ports:
             - containerPort: 8080
           readinessProbe:
