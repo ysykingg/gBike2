@@ -187,6 +187,12 @@
     cd rentAndBillingView
     mvn spring-boot:run
     
+    cd bikeManager
+    mvn spring-boot:run
+    
+    cd bikeManageApp
+    mvn spring-boot:run
+    
     cd gateway
     mvn spring-boot:run
     
@@ -223,6 +229,14 @@ API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수
 			uri: http://localhost:8085
 			predicates:
 				- Path=/rentAndBillingView/**
+			- id: bikeManageApp
+          		uri: http://localhost:8086
+          		predicates:
+            			- Path=/bikeManageApps/**
+        		- id: bikeManager
+          		uri: http://localhost:8087
+          		predicates:
+            			- Path=/bikeManagers/**
 
 		globalcors:
 			corsConfigurations:
@@ -263,6 +277,14 @@ API GateWay를 통하여 마이크로 서비스들의 집입점을 통일할 수
 			uri: http://rentAndBillingView:8080
 			predicates:
 				- Path=/remtAmdBillingViews/**
+			- id: bikeManageApp
+          		uri: http://bikeManageApp:8080
+          		predicates:
+            			- Path=/bikeManageApps/**
+        		- id: bikeManager
+          		uri: http://bikeManager:8080
+          		predicates:
+            			- Path=/bikeManagers/**
 
 		globalcors:
 			corsConfigurations:
@@ -461,25 +483,30 @@ MSAEZ.io를 통하여 도출된 Aggregate는 Entity로 선언하여 PRE/POST PER
 초기 데이터는 아래와 같이 정의하였다.
 
     [UserDeposit 등록]
-    http POST http://20.194.44.70:8080/userDeposits userid=1 deposit=100000
-    http POST http://20.194.44.70:8080/userDeposits userid=2 deposit=200000
-    http POST http://20.194.44.70:8080/userDeposits userid=3 deposit=200000
+    http POST http://52.231.34.10:8080/userDeposits userid=1 deposit=100000
+    http POST http://52.231.34.10:8080/userDeposits userid=2 deposit=200000
+    http POST http://52.231.34.10:8080/userDeposits userid=3 deposit=200000
     
     [UserDeposit 확인]
-    http GET http://20.194.44.70:8080/userDeposits
+    http GET http://52.231.34.10:8080/userDeposits
  
  ![image](https://user-images.githubusercontent.com/84724396/121111293-9309e880-c849-11eb-8e74-9263cf46e734.png)
 
 
     [Bike 등록]
-    http POST http://20.194.44.70:8080/bikes bikeid=1 status=사용가능 location=분당_정자역_1구역
-    http POST http://20.194.44.70:8080/bikes bikeid=2 status=사용중 location=분당_정자역_1구역
-    http POST http://20.194.44.70:8080/bikes bikeid=3 status=불량 location=분당_정자역_1구역
+    http POST http://52.231.34.10:8080/bikes bikeid=1 status=사용가능 location=분당_정자역_1구역
+    http POST http://52.231.34.10:8080/bikes bikeid=2 status=사용중 location=분당_정자역_1구역
+    http POST http://52.231.34.10:8080/bikes bikeid=3 status=불량 location=분당_정자역_1구역
     
     [Bike 확인]
-    http GET http://20.194.44.70:8080/bikes
+    http GET http://52.231.34.10:8080/bikes
  ![image](https://user-images.githubusercontent.com/84724396/121111431-d1070c80-c849-11eb-9de0-7e625c5a7c42.png)
 
+    [BikeManager등록]
+    http POST http://52.231.34.10:8080/bikeManagers managerid=1 userid=1 point=1000
+    
+    [BikeManeger정보확인]
+    http GET http://52.231.34.10:8080/bikeManagers
  
 
 타 마이크로서비스의 데이터 원본에 접근없이(Composite 서비스나 조인SQL 등 없이) 도 조회가 가능하도록 rentAndBillingView 서비스의 CQRS를 통하여 Costomer Center 서비스를 구현하였다.
@@ -487,59 +514,59 @@ rentAndBillingView View를 통하여 사용자가 rental한 bike 정보와 billi
 
 ### 2.자전거 대여
 ### 2.1 대여(rent) 화면
-    http POST http://20.194.44.70:8080/rents userid=1 bikeid=1
+    http POST http://52.231.34.10:8080/rents userid=1 bikeid=1
     
 ![image](https://user-images.githubusercontent.com/84724396/121114074-0e6d9900-c84e-11eb-970c-82c39fa6350d.png)
 
 ### 2.2 대여(rent) 후 bikes 화면
      자전거 상태가 '사용 가능' -> '사용중' 으로 변경된다.     
-     http GET http://20.194.44.70:8080/bikes
+     http GET http://52.231.34.10:8080/bikes
 
 ![사용중](https://user-images.githubusercontent.com/84724396/121121127-fd2a8980-c859-11eb-9955-54988c8b331e.PNG)
     
 ### 2.3 대여(rent) 후 billings 화면
     bill이 하나 생성된다.
-    http GET http://20.194.44.70:8080/billings
+    http GET http://52.231.34.10:8080/billings
 
 ![image](https://user-images.githubusercontent.com/84724396/121126700-901bf180-c863-11eb-9b92-22cc6d227ff4.png)
 
 
 ### 2.4 대여(rent) 후 rentAndBillingView 화면(CQRS)
     rent한 정보를 조회할 수 있다.
-    http GET http://20.194.44.70:8080/rentAndBillingViews
+    http GET http://52.231.34.10:8080/rentAndBillingViews
 
 ![image](https://user-images.githubusercontent.com/84724396/121114171-34933900-c84e-11eb-98b6-b02faf2e5b6b.png)
 
 ### 3. 반납(return)  
 ### 3.1 반납(return) 화면
-     http PATCH http://20.194.44.70:8080/rents/1 endlocation=분당_정자역_3구역
+     http PATCH http://52.231.34.10:8080/rents/1 endlocation=분당_정자역_3구역
 
 ![image](https://user-images.githubusercontent.com/84724396/121116196-1b3fbc00-c851-11eb-8a4c-8cd4820edda7.png)
 
 ### 3.2 반납(return) 후 bike 화면
      자전거 상태가 '사용중' -> '사용 가능'으로 변경된다.
-     http GET http://20.194.44.70:8080/bikes
+     http GET http://52.231.34.10:8080/bikes
     
 ![사용가능](https://user-images.githubusercontent.com/84724396/121120558-c30cb800-c858-11eb-96a5-c8c54c9945b5.PNG)
 
 
 ### 3.3 반납(return) 후 userDeposit 화면
     요금이 계산되어 deposit이 차감된다.
-    http GET http://20.194.44.70:8080/userDeposits
+    http GET http://52.231.34.10:8080/userDeposits
 
 ![image](https://user-images.githubusercontent.com/84724396/121115821-8b017700-c850-11eb-8c05-02510b6189af.png)
 
 
 ### 3.4 반납(return) 후 bill 화면
     bill 이 종료된다.
-    http GET http://20.194.44.70:8080/billings
+    http GET http://52.231.34.10:8080/billings
     
 ![image](https://user-images.githubusercontent.com/84724396/121126749-a3c75800-c863-11eb-84d2-bab86df2299f.png)
 
 
 ### 3.5 반납(return) 후 rentAndBillingView 화면(CQRS)
     rent와 billing 정보를 조회한다.
-    http GET http://20.194.44.70:8080/rentAndBillingViews
+    http GET http://52.231.34.10:8080/rentAndBillingViews
 
 ![image](https://user-images.githubusercontent.com/84724396/121115890-a66c8200-c850-11eb-8d7d-bd73289a35e5.png)
 
@@ -547,7 +574,7 @@ rentAndBillingView View를 통하여 사용자가 rental한 bike 정보와 billi
 ### 4. 자전거 대여 불가 화면 (Request / Response)
 
      1. rent 신청를 하면 bike에서 자전거 상태를 체크하고 '사용 가능'일 때만 rent 가 성공한다.    
-     http POST http://20.194.44.70:8080/rents bikeid=2 userid=2
+     http POST http://52.231.34.10:8080/rents bikeid=2 userid=2
 
 ![image](https://user-images.githubusercontent.com/84724396/121115300-e2ebae00-c84f-11eb-9266-8c05b0a3f2d3.png)
 
@@ -566,7 +593,39 @@ rentAndBillingView View를 통하여 사용자가 rental한 bike 정보와 billi
 
     또한 Correlation을 key를 활용하여 userid, rentid, bikeid, billid 등 원하는 값을 서비스간의 I/F를 통하여 서비스 간에 트랜잭션이 묶여 있음을 알 수 있다.
 
+### 5. Bike 상태 Report 후 BikeManager 포인트 적립 (Request / Response)
 
+     1. bike상태 Report등록
+    
+     http POST http://52.231.34.10:8080/bikeManageApps reportid=1 managerid=1 bikeid=1 batterylevel=50 usableyn=true
+     
+     2. bike상태 정상 반영 확인
+     
+     http GET http://52.231.34.10:8080/bikes
+       
+      --불량 보고 후 bike상태 확인
+       
+     3. bike상태 정상 반영 후 point 적립 확인
+     
+     http GET http://52.231.34.10:8080/bikeManagers
+     
+### 6. bikeManager에 적립한 point Deposit으로 전환
+
+     1. 포인트전환요청
+     
+     http PUT http://52.231.34.10:8080/bikeManagers/1 userid=1 point=1000 adjustpoint=1000
+     
+     2. 포인트 감소 확인
+     
+     http GET http://52.231.34.10:8080/bikeManagers
+     
+     3. userDeposit 전환 확인
+     
+     http GET http://52.231.34.10:8080/userDeposits
+
+### 7. userDeposit 전환 후 rentAndBillingView에서 적립 후 deposit 반영 확인
+
+     http GET http://52.231.34.10:8080/rentandbillingviews
 
 ## Polyglot 프로그래밍 적용
 
