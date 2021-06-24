@@ -651,7 +651,7 @@ rentAndBillingView View를 통하여 사용자가 rental한 bike 정보와 billi
 
 ## Polyglot 프로그래밍 적용
 
-rent 서비스와 기타 bike, billing, bikeDepository 등 서비스는  다른 DB를 사용하여 폴리글랏을 만족시키고 있다.
+rent, bikeManager 서비스와 기타 bike, billing, bikeDepository 등 서비스는  다른 DB를 사용하여 폴리글랏을 만족시키고 있다.
 
 ### rent의 pom.xml DB 설정 코드
 
