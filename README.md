@@ -915,7 +915,7 @@ vi deployment.yml
 ![image](https://user-images.githubusercontent.com/82795726/123293333-dbfeb400-d54e-11eb-82da-a20537ebd672.png)
 
 
-- userdeposit 서비스의 liveness가 발동되어 2번 retry 시도 한 부분 확인
+- bikeManager 서비스의 liveness가 발동되어 5번 retry 시도 한 부분 확인
 ![image](https://user-images.githubusercontent.com/82795726/123292691-43683400-d54e-11eb-8a0b-d1792ab2a234.png)
 
 
