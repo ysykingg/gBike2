@@ -787,6 +787,9 @@ rent, bikeManager 서비스와 기타 bike, billing, bikeDepository 등 서비�
 ### configMap 
 ![image](https://user-images.githubusercontent.com/82796103/121039821-61166900-c7ec-11eb-9c88-a9bb5221f924.png)
 
+### bikeManageApp에 적용
+
+![image](https://user-images.githubusercontent.com/82795726/123353001-7edd1f80-d59b-11eb-9ddf-2a599c70d0a3.png)
 
 ## Autoscale (HPA)
 
