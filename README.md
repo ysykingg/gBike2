@@ -32,7 +32,7 @@
    1) 청구 서비스가 수행되지 않더라도 365일 24시간 자전거를 Rent할 수 있어야 한다. -> Async(event-driven) , Eventual consistency
    2) userDeposit서비스가 수행되지 않더라도 365일 24시간 포인트전환 요청을 할 수 있어야 한다. -> Async(event-driven) , Eventual consistency
    3) 자전거 관리 시스템이 과중되면 Rent를 잠시 동안 받지 않고 Rent를 잠시 후에 하도록 유도한다. -> Circuit breaker, fallback
-   4) 자전거 관리 시스템이 과중되면 bikeManageApp 요청을 잠시 후에 하도록 요도한다. -> Circuit breaker, fallback
+   4) 자전거 관리 시스템이 과중되면 bikeManageApp 요청을 잠시 후에 하도록 유도한다. -> Circuit breaker, fallback
 
 3. 성능
    1) 사용자가 rent와 청구 이력및 userDepoist을 조회 할 수 있도록 성능을 고려하여 별도의 view로 구성한다.> CQRS
