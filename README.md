@@ -145,7 +145,7 @@
 
 ### 비기능 요구사항에 대한 검증
 
-![검증23](https://user-images.githubusercontent.com/84724396/120887142-2c5bb380-c62c-11eb-8cc6-00027f3ebf55.PNG)
+![image](https://user-images.githubusercontent.com/82795726/123350946-07a58c80-d597-11eb-8ad4-8f72c32f9125.png)
 
 1. 자전거 상태가 '사용가능' 일 때만 Rent할 수 있어야 한다. -> Sync 호출 (OK)
    - Rent 시 자전거 상태 체크에 대해 Request-Response 방식으로 처리함.
@@ -155,22 +155,25 @@
 4. 청구 서비스가 수행되지 않더라도 365일 24시간 자전거를 반납할 수 있어야 한다. -> Async(event-driven) , Eventual consistency (OK)
 5. 자전거 관리 시스템이 과중되면 Rent를 잠시 동안 받지 않고 Rent를 잠시 후에 하도록 유도한다. -> Circuit breaker, fallback (OK)
 6. 사용자가 rent와 청구 이력을 조회 할 수 있도록 성능을 고려하여 별도의 view로 구성한다.> CQRS (OK)
+7. 자전거상태 보고 후 정상반영 되어야 포인트 적립이 가능하다 -> Sync 호출
+8. userDeposit서비스가 수행되지 않더라도 365일 24시간 포인트전환 요청을 할 수 있어야 한다. -> Async(event-driven) , Eventual consistency
+9. 자전거 관리 시스템이 과중되면 bikeManageApp 요청을 잠시 후에 하도록 요도한다. -> Circuit breaker, fallback
 
 
 ## 헥사고날 아키텍처 다이어그램 도출
 
-![헥사고날2](https://user-images.githubusercontent.com/84724396/120886216-ca00b400-c627-11eb-9702-fa9b83a4417b.PNG)
+![image](https://user-images.githubusercontent.com/82795726/123351503-2c4e3400-d598-11eb-9344-ea90ade88c6a.png)
 
     - Chris Richardson, MSA Patterns 참고하여 Inbound adaptor와 Outbound adaptor를 구분함
     - 호출관계에서 PubSub 과 Req/Resp 를 구분함
-    - rent의 경우 Polyglot 검증을 위해 Hsql로 셜계
+    - rent, bikeManager의 경우 Polyglot 검증을 위해 Hsql로 셜계
     - 서브 도메인과 바운디드 컨텍스트의 분리:  각 팀의 KPI 별로 아래와 같이 관심 구현 스토리를 나눠가짐
 
 
 # 구현
 
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 구현한 각 서비스의 실행방법은 아래와 같다.
-(포트넘버 : 8081 ~ 8085, 8088)
+(포트넘버 : 8081 ~ 8087, 8088)
 
     cd rent
     mvn spring-boot:run  
