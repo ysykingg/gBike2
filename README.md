@@ -135,7 +135,7 @@
      4) 사용자의 청구 및 이용이 종료된다.(OK)
   4. 사용자가 Rent와 청구 이력을 조회한다. (OK)
 
-![image](https://user-images.githubusercontent.com/82795726/123186289-c9469980-d4d2-11eb-9319-af6e44238292.png)
+![image](https://user-images.githubusercontent.com/82795726/123350379-ded0c780-d595-11eb-8f19-42f380749e8c.png)
 
   5. 자전거 관리
      1) 자전거관리자는 자전거상태(배터리잔량, 고장여부)를 업데이트 할 수 있다. (OK)
