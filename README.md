@@ -1017,6 +1017,12 @@ vi deployment.yml
 
 ![image](https://user-images.githubusercontent.com/82795726/123302239-7531c880-d557-11eb-9fa1-fee856696dd4.png)
 
+- downtime 미발생 확인
+
+![image](https://user-images.githubusercontent.com/82795726/123352726-ec3c8080-d59a-11eb-88cc-a4ae7262e1a4.png)
+
+![image](https://user-images.githubusercontent.com/82795726/123352813-18580180-d59b-11eb-9761-ddb9558ab888.png)
+
 - 기존 버전과 새 버전의  pod 공존
 
 ![image](https://user-images.githubusercontent.com/82795726/123303429-c2fb0080-d558-11eb-995f-dbbebb3b254f.png)
